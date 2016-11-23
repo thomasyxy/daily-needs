@@ -5,9 +5,9 @@ const reqwest = require('reqwest');
 const path = require('path');
 
 module.exports = {
-  index: function *(next){
+  docConfig: function *(next){
     var poxyReq = new Promise(function(resolve, reject){
-      let captureGoal = false ? 'http://127.0.0.1:9000/data/zz.json' : 'http://127.0.0.1:9000/data/all.json';
+      let captureGoal = false ? 'http://127.0.0.1:9000/mock/zz.json' : 'http://127.0.0.1:9000/mock/all.json';
       let opt = {
         url: captureGoal,
         json: true,
@@ -40,6 +40,66 @@ module.exports = {
     this.render('data',{
       data: data
     })
+    yield next
+  },
+  fieList: function *(next){
+    var poxyReq = new Promise(function(resolve, reject){
+      let captureGoal = 'http://127.0.0.1:9000/data/fieList.json';
+      let opt = {
+        url: captureGoal,
+        json: true
+      }
+      request.get(opt, function(err, res, body){
+        if(err){
+            console.log("***************[request error]*****************");
+            console.log(err);
+            console.log(body);
+            resolve(err);
+            return;
+        }
+        if(res && res.statusCode != 200){
+            console.log("***************[response error]*****************");
+            console.log(body);
+            resolve(res);
+            return;
+        }
+        resolve(body);
+      })
+    })
+
+    let data = yield poxyReq
+
+    this.body = data;
+    yield next
+  },
+  fieUpdate: function *(next){
+    var poxyReq = new Promise(function(resolve, reject){
+      let captureGoal = 'http://fie.alibaba.net/api/plugin-search.do?v2=1';
+      let opt = {
+        url: captureGoal,
+        json: true
+      }
+      request.get(opt, function(err, res, body){
+        if(err){
+            console.log("***************[request error]*****************");
+            console.log(err);
+            console.log(body);
+            resolve(err);
+            return;
+        }
+        if(res && res.statusCode != 200){
+            console.log("***************[response error]*****************");
+            console.log(body);
+            resolve(res);
+            return;
+        }
+        resolve(body);
+      })
+    })
+
+    let data = yield poxyReq
+
+    this.body = data;
     yield next
   }
 }
