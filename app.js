@@ -19,9 +19,6 @@ const jade = new Jade({
   debug: true,
   pretty: true,
   compileDebug: false,
-  locals: {
-    staticPath: '/static'
-  },
   app: app
 })
 

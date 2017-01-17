@@ -16,5 +16,5 @@ node-inspector
 node --debug app.js
 
 # run project
-node app.js
+npm run dev
 ```

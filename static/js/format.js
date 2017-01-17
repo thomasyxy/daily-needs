@@ -43,17 +43,18 @@ function updata(name, content, type){
     url: "http://127.0.0.1:9000/file/create",
     data: {
       type: type || 'json',
-      name: name,
-      content: JSON.stringify(content)
+      name: 'a',
+      content: JSON.stringify('123')
     }
   }).done(function(res){
     console.log(res.success);
   })
 };
+updata();
 
 mainKeys.map(function(key){
   deleteProp(mainObj[key]);
-  updata(key, mainObj[key]);
+  // updata(key, mainObj[key]);
 })
 // deleteProp(mainObj['angleAxis']);
 // updata('angleAxis', mainObj['angleAxis']);
